@@ -1,6 +1,5 @@
 const express = require('express');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -8,8 +7,9 @@ require('dotenv').config();
 const routes = require('./routes');
 const centralizedErrorHandler = require('./middlewares/centralizedErrorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const rateLimit = require('./middlewares/rateLimit');
 
-const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/moviesdb' } = process.env;
 
 const app = express();
 
@@ -22,14 +22,7 @@ mongoose.connect(MONGO_URL, {
 app.use(requestLogger);
 
 app.use(helmet());
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    standardHeaders: true,
-    legacyHeaders: false,
-  }),
-);
+app.use(rateLimit);
 app.use(routes);
 
 app.use(errorLogger);
