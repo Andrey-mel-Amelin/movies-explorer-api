@@ -24,15 +24,13 @@ const validUserInfo = celebrate({
 
 const validDataMovie = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().regex(REGEX_URL),
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required(),
     year: Joi.number().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(REGEX_URL),
-    trailer: Joi.string().required().regex(REGEX_URL),
+    trailerLink: Joi.string().required().regex(REGEX_URL),
     thumbnail: Joi.string().required().regex(REGEX_URL),
     owner: Joi.string().hex().length(24),
     movieId: Joi.string().hex().length(24),

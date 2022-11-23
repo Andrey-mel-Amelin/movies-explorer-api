@@ -16,8 +16,6 @@ module.exports.createUser = (req, res, next) => {
     email,
     password,
     name,
-    about,
-    avatar,
   } = req.body;
 
   bcrypt
@@ -26,8 +24,6 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
       name,
-      about,
-      avatar,
     }))
     .then((user) => User.findById(user._id))
     .then((user) => res.send(user))
@@ -67,8 +63,8 @@ module.exports.logout = (req, res) => {
 };
 
 module.exports.getMe = (req, res, next) => {
-  User.findById(req.params.userId || req.user._id) // только для меня изменить
-    .orFail(new NotFoundError('Пользователь не найден.')) // email name возвращать
+  User.findById(req.user._id)
+    .orFail(new NotFoundError('Пользователь не найден.'))
     .then((user) => {
       res.send(user);
     })
@@ -81,8 +77,8 @@ module.exports.getMe = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, about } = req.body; // email name
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  const { email, name } = req.body;
+  User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .orFail(new NotFoundError('Пользователь не найден.'))
     .then((user) => {
       res.send(user);
