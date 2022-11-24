@@ -1,15 +1,16 @@
 const router = require('express').Router();
 
 const NotFoundError = require('../errors/NotFoundError');
-const { login, createUser } = require('../controllers/users');
-const { validAuth } = require('../middlewares/joiValidation');
+const { login, createUser, logout } = require('../controllers/users');
+const { validAuth, validUserInfo } = require('../middlewares/joiValidation');
 const auth = require('../middlewares/auth');
 const allowedCors = require('../middlewares/allowedCors');
 
 router.use(allowedCors);
 
 router.post('/signup', validAuth, createUser);
-router.post('/signin', validAuth, login);
+router.post('/signin', validUserInfo, login);
+router.delete('/signout', logout);
 router.use(auth);
 router.use('/movies', require('./movies'));
 router.use('/users', require('./users'));

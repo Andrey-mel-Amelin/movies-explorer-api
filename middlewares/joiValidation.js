@@ -11,14 +11,14 @@ const validAuth = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
 const validUserInfo = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
     email: Joi.string().email().required(),
+    password: Joi.string().required(),
   }),
 });
 
@@ -27,13 +27,12 @@ const validDataMovie = celebrate({
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required(),
-    year: Joi.number().required(),
+    year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().regex(REGEX_URL),
-    trailerLink: Joi.string().required().regex(REGEX_URL),
-    thumbnail: Joi.string().required().regex(REGEX_URL),
-    owner: Joi.string().hex().length(24),
-    movieId: Joi.string().hex().length(24),
+    image: Joi.string().regex(REGEX_URL).required(),
+    trailerLink: Joi.string().regex(REGEX_URL).required(),
+    thumbnail: Joi.string().regex(REGEX_URL).required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

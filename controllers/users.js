@@ -87,6 +87,9 @@ module.exports.updateUser = (req, res, next) => {
       if (err.message === VALIDATION_ERROR) {
         return next(new BadReqError('Переданы некорректные данные при обновлении пользователя.'));
       }
+      if (err.code === 11000) {
+        return next(new DublicateKeyError('Пользователь с таким email уже существует.'));
+      }
       return next(err);
     });
 };
