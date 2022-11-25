@@ -7,7 +7,7 @@ const validId = (typeId) => celebrate({
   }),
 });
 
-const validAuth = celebrate({
+const validUserRegister = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
@@ -15,10 +15,17 @@ const validAuth = celebrate({
   }),
 });
 
-const validUserInfo = celebrate({
+const validUserLogin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
+  }),
+});
+
+const validUserUpdate = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
@@ -40,7 +47,8 @@ const validDataMovie = celebrate({
 
 module.exports = {
   validId,
-  validAuth,
-  validUserInfo,
+  validUserRegister,
+  validUserLogin,
+  validUserUpdate,
   validDataMovie,
 };
