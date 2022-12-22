@@ -26,7 +26,7 @@ module.exports.createUser = (req, res, next) => {
       name,
     }))
     .then((user) => User.findById(user._id))
-    .then((user) => res.send(user))
+    .then((user) => res.send({ user, message: 'Пользователь успешно зарегистрирован.' }))
     .catch((err) => {
       if (err.message === VALIDATION_ERROR) {
         return next(new BadReqError('Переданы некорректные данные при создании пользователя.'));
@@ -51,7 +51,7 @@ module.exports.login = (req, res, next) => {
           sameSite: 'None',
           secure: true,
         })
-        .send({ message: 'Пользователь успешно авторизирован.' });
+        .send({ user, message: 'Пользователь успешно авторизирован.' });
     })
     .catch(next);
 };
@@ -81,7 +81,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .orFail(new NotFoundError('Пользователь не найден.'))
     .then((user) => {
-      res.send(user);
+      res.send({ user, message: 'Вы успешно изменили информацию пользователя.' });
     })
     .catch((err) => {
       if (err.message === VALIDATION_ERROR) {
