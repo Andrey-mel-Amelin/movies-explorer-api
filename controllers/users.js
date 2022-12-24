@@ -51,7 +51,7 @@ module.exports.login = (req, res, next) => {
           sameSite: 'None',
           secure: true,
         })
-        .send({ user, message: 'Пользователь успешно авторизирован.' });
+        .send({ userInfo: { name: user.name, email: user.email }, message: 'Пользователь успешно авторизирован.' });
     })
     .catch(next);
 };
