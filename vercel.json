@@ -2,7 +2,6 @@
   "routes": [{ "src": "/(.*)", "dest": "/app.js" }],
   "builds": [{ "src": "/app.js", "use": "@vercel/node" }],
   "env": {
-    "MONGODB_URI": "mongodb://127.0.0.1:27017",
-    "MONGODB_DB": "moviesdb"
+    "MONGODB_URI": "mongodb://127.0.0.1:27017/moviesdb"
   }
 }
